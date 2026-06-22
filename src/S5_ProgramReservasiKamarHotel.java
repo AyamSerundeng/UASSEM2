@@ -8,7 +8,6 @@
  * @author HYPE AMD
  */
 import java.util.Scanner;
-
 public class S5_ProgramReservasiKamarHotel {
     
     public static void main(String[] args) {
