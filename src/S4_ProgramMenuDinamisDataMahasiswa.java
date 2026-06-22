@@ -10,30 +10,15 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Mahasiswa {
-    String nim;
-    String nama;
-    String prodi;
-
-    public Mahasiswa(String nim, String nama, String prodi) {
-        this.nim = nim;
-        this.nama = nama;
-        this.prodi = prodi;
-    }
-
-    public void display() {
-        System.out.println("NIM  : " + nim);
-        System.out.println("Nama : " + nama);
-        System.out.println("Prodi: " + prodi);
-    }
-}
-
 public class S4_ProgramMenuDinamisDataMahasiswa {
-    private static ArrayList<Mahasiswa> daftar = new ArrayList<>();
-    private static Scanner input = new Scanner(System.in);
     
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        ArrayList<String> nimList = new ArrayList<>();
+        ArrayList<String> namaList = new ArrayList<>();
+        ArrayList<String> prodiList = new ArrayList<>();
         int pilihan;
+
         do {
             System.out.println("\n===== MENU =====");
             System.out.println("1. Input Data Mahasiswa");
@@ -42,72 +27,70 @@ public class S4_ProgramMenuDinamisDataMahasiswa {
             System.out.println("4. Keluar");
             System.out.print("Pilihan Anda: ");
             pilihan = input.nextInt();
-            input.nextLine(); // consume newline
+            input.nextLine(); // bersihkan newline
 
             switch (pilihan) {
                 case 1:
-                    inputData();
+                    System.out.print("Masukkan NIM : ");
+                    String nim = input.nextLine();
+                    System.out.print("Masukkan Nama : ");
+                    String nama = input.nextLine();
+                    System.out.print("Masukkan Program Studi : ");
+                    String prodi = input.nextLine();
+                    nimList.add(nim);
+                    namaList.add(nama);
+                    prodiList.add(prodi);
+                    System.out.println("Data mahasiswa berhasil ditambahkan.");
                     break;
+
                 case 2:
-                    tampilkanData();
+                    if (nimList.isEmpty()) {
+                        System.out.println("Belum ada data mahasiswa.");
+                    } else {
+                        System.out.println("===== DATA MAHASISWA =====");
+                        for (int i = 0; i < nimList.size(); i++) {
+                            System.out.println("Mahasiswa ke-" + (i + 1));
+                            System.out.println("NIM  : " + nimList.get(i));
+                            System.out.println("Nama : " + namaList.get(i));
+                            System.out.println("Prodi: " + prodiList.get(i));
+                            System.out.println();
+                        }
+                    }
                     break;
+
                 case 3:
-                    cariData();
+                    if (nimList.isEmpty()) {
+                        System.out.println("Belum ada data mahasiswa.");
+                    } else {
+                        System.out.print("Masukkan NIM yang dicari : ");
+                        String cari = input.nextLine();
+                        boolean ditemukan = false;
+                        for (int i = 0; i < nimList.size(); i++) {
+                            if (nimList.get(i).equals(cari)) {
+                                System.out.println("Data ditemukan:");
+                                System.out.println("NIM  : " + nimList.get(i));
+                                System.out.println("Nama : " + namaList.get(i));
+                                System.out.println("Prodi: " + prodiList.get(i));
+                                ditemukan = true;
+                                break;
+                            }
+                        }
+                        if (!ditemukan) {
+                            System.out.println("Mahasiswa dengan NIM " + cari + " tidak ditemukan.");
+                        }
+                    }
                     break;
+
                 case 4:
                     System.out.println("Terima kasih! Program selesai.");
                     break;
+
                 default:
                     System.out.println("Pilihan tidak valid. Silakan coba lagi.");
             }
         } while (pilihan != 4);
-    }
 
-    private static void inputData() {
-        System.out.print("Masukkan NIM : ");
-        String nim = input.nextLine();
-        System.out.print("Masukkan Nama : ");
-        String nama = input.nextLine();
-        System.out.print("Masukkan Program Studi : ");
-        String prodi = input.nextLine();
-
-        Mahasiswa m = new Mahasiswa(nim, nama, prodi);
-        daftar.add(m);
-        System.out.println("Data mahasiswa berhasil ditambahkan.");
-    }
-
-    private static void tampilkanData() {
-        if (daftar.isEmpty()) {
-            System.out.println("Belum ada data mahasiswa.");
-            return;
-        }
-        System.out.println("===== DATA MAHASISWA =====");
-        for (int i = 0; i < daftar.size(); i++) {
-            System.out.println("Mahasiswa ke-" + (i+1));
-            daftar.get(i).display();
-            System.out.println();
-        }
-    }
-
-    private static void cariData() {
-        if (daftar.isEmpty()) {
-            System.out.println("Belum ada data mahasiswa.");
-            return;
-        }
-        System.out.print("Masukkan NIM yang dicari : ");
-        String cariNim = input.nextLine();
-        boolean ditemukan = false;
-        for (Mahasiswa m : daftar) {
-            if (m.nim.equals(cariNim)) {
-                System.out.println("Data ditemukan:");
-                m.display();
-                ditemukan = true;
-                break;
-            }
-        }
-        if (!ditemukan) {
-            System.out.println("Mahasiswa dengan NIM " + cariNim + " tidak ditemukan.");
-        }
+        input.close();
     }
     
 }
